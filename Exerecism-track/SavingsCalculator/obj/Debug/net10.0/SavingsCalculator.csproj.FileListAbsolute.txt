@@ -1,0 +1,14 @@
+C:\Exercism\csharp\SavingsCalculator\bin\Debug\net10.0\SavingsCalculator.exe
+C:\Exercism\csharp\SavingsCalculator\bin\Debug\net10.0\SavingsCalculator.deps.json
+C:\Exercism\csharp\SavingsCalculator\bin\Debug\net10.0\SavingsCalculator.runtimeconfig.json
+C:\Exercism\csharp\SavingsCalculator\bin\Debug\net10.0\SavingsCalculator.dll
+C:\Exercism\csharp\SavingsCalculator\bin\Debug\net10.0\SavingsCalculator.pdb
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\SavingsCalculator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\SavingsCalculator.AssemblyInfoInputs.cache
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\SavingsCalculator.AssemblyInfo.cs
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\SavingsCalculator.csproj.CoreCompileInputs.cache
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\SavingsCalculator.dll
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\refint\SavingsCalculator.dll
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\SavingsCalculator.pdb
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\SavingsCalculator.genruntimeconfig.cache
+C:\Exercism\csharp\SavingsCalculator\obj\Debug\net10.0\ref\SavingsCalculator.dll
