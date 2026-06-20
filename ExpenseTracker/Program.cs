@@ -1,14 +1,12 @@
-﻿using System;
+﻿using System.Globalization;
 
-public static class Kata
+int[] expenses = { 150, 50, 120, 0, 85};
+int total = 0;
+
+for (int i = 0; i < expenses.Length; i++)
 {
-    public static string Solution(string str)
-    {
-        string result = "";
-        for (int i = str.Length - 1; i >= 0; i--)
-        {
-            result += str[i];
-        }
-        return result;
-    }
+    Console.WriteLine($"Day {i + 1} expense: {expenses[i]} PLN");
+    total += expenses[i];
 }
+Console.WriteLine("-------------------");
+Console.WriteLine($"Total expenses for 5 days: {total} PLN");
