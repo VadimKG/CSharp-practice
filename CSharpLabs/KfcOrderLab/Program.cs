@@ -6,11 +6,7 @@ namespace KfcOrderLab
     {
         static void Main(string[] args)
         {
-            KfcOrder MyOrder = new KfcOrder();
-
-            MyOrder.DishName = "Bucket of wings";
-            MyOrder.Price = 15;
-            MyOrder.IsReady = true;
+            KfcOrder MyOrder = new KfcOrder("Bucket of Wings", 15);
 
             Console.WriteLine("--- YOUR ORDER ---\n");
             Console.WriteLine($"Dish: {MyOrder.DishName}");
