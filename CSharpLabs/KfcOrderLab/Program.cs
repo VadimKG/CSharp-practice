@@ -12,6 +12,8 @@ namespace KfcOrderLab
             Console.WriteLine($"Dish: {MyOrder.DishName}");
             Console.WriteLine($"Price: {MyOrder.Price}");
             Console.WriteLine($"Ready?: {MyOrder.IsReady}");
+
+            MyOrder.ServeOrder();
         }
     }
 }
