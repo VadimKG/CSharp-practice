@@ -10,4 +10,10 @@ class KfcOrder
         Price = inputPrice;
         IsReady = false;
     }
+
+    public void ServeOrder()
+    {
+        IsReady = true;
+        Console.WriteLine($"\nYour order \"{DishName}\" is ready!");
+    }
 }
