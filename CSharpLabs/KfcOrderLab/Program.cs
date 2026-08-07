@@ -6,14 +6,14 @@ namespace KfcOrderLab
     {
         static void Main(string[] args)
         {
-            KfcOrder MyOrder = new KfcOrder("Bucket of Wings", 15);
-
+            KfcOrder myOrder = new KfcOrder("Bucket of Wings", 15);
+            myOrder.Price = -100;
             Console.WriteLine("--- YOUR ORDER ---\n");
-            Console.WriteLine($"Dish: {MyOrder.DishName}");
-            Console.WriteLine($"Price: {MyOrder.Price}");
-            Console.WriteLine($"Ready?: {MyOrder.IsReady}");
+            Console.WriteLine($"Dish: {myOrder.DishName}");
+            Console.WriteLine($"Price: {myOrder.Price}");
+            Console.WriteLine($"Ready?: {myOrder.IsReady}");
 
-            MyOrder.ServeOrder();
+            myOrder.ServeOrder();
         }
     }
 }
