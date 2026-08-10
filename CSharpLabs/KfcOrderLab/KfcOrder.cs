@@ -1,7 +1,7 @@
 class KfcOrder
 {
 	public string DishName { get; private set; }
-	public bool IsReady { get; private set; }
+	public bool IsReady { get; protected set; }
 
 	private int _price;
 
@@ -12,7 +12,7 @@ class KfcOrder
         IsReady = false;
     }
 
-    public void ServeOrder()
+    public virtual void ServeOrder()
     {
         IsReady = true;
         Console.WriteLine($"\nYour order \"{DishName}\" is ready!");
