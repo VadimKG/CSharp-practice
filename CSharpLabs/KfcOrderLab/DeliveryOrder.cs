@@ -6,4 +6,10 @@ class DeliveryOrder : KfcOrder
     {
         this.DeliveryAddress = DeliveryAddress;
     }
+
+    public override void ServeOrder()
+    {
+        IsReady = true;
+        Console.WriteLine($"\nYour order \"{DishName}\" is ready!\nThe courier has picked up the order and is already on the way to {DeliveryAddress}");
+    }
 }
