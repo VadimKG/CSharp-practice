@@ -15,13 +15,21 @@ namespace KfcOrderLab
 
             myOrder.ServeOrder();
 
-            DeliveryOrder myNewOrder = new DeliveryOrder("Warszawa", "Bucket of Wings", 15);
+            DeliveryOrder myNewOrder = new DeliveryOrder("Warszawa", "Bucket of Strips", 20);
             Console.WriteLine("\n--- YOUR NEW ORDER ---\n");
             Console.WriteLine($"Adress: {myNewOrder.DeliveryAddress}");
             Console.WriteLine($"Dish: {myNewOrder.DishName}");
             Console.WriteLine($"Price: {myNewOrder.Price}");
 
             myNewOrder.ServeOrder();
+
+            DeliveryOrder myBrandNewOrder = new DeliveryOrder("Szczecin", "Bucket of Bites", 11);
+            Console.WriteLine("\n--- YOUR NEW ORDER ---\n");
+            Console.WriteLine($"Adress: {myBrandNewOrder.DeliveryAddress}");
+            Console.WriteLine($"Dish: {myBrandNewOrder.DishName}");
+            Console.WriteLine($"Price: {myBrandNewOrder.Price}");
+
+            myBrandNewOrder.PrintReceipt();
         }
     }
 }

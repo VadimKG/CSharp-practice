@@ -1,4 +1,4 @@
-class KfcOrder
+class KfcOrder : IReceipt
 {
 	public string DishName { get; private set; }
 	public bool IsReady { get; protected set; }
@@ -8,7 +8,7 @@ class KfcOrder
     public KfcOrder(string inputDish, int inputPrice)
     {
         DishName = inputDish;
-        Price = inputPrice;
+        Price = inputPrice; 
         IsReady = false;
     }
 
@@ -31,5 +31,10 @@ class KfcOrder
             else
                 Console.WriteLine("Error: Price cannot be negative!");
         }
+    }
+
+    public virtual void PrintReceipt()
+    {
+        Console.WriteLine($"\n\n----- THE BILL -----\n     Your order      \nDish: {DishName}\nPrice: {Price}");
     }
 }
