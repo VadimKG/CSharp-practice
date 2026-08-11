@@ -12,4 +12,10 @@ class DeliveryOrder : KfcOrder
         IsReady = true;
         Console.WriteLine($"\nYour order \"{DishName}\" is ready!\nThe courier has picked up the order and is already on the way to {DeliveryAddress}");
     }
+
+    public override void PrintReceipt()
+    {
+        base.PrintReceipt();
+        Console.WriteLine($"Address: {DeliveryAddress}");
+    }
 }
