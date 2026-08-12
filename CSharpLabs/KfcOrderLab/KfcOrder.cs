@@ -10,6 +10,7 @@ class KfcOrder : IReceipt
         DishName = inputDish;
         Price = inputPrice; 
         IsReady = false;
+        Count ++;
     }
 
     public virtual void ServeOrder()
@@ -36,5 +37,11 @@ class KfcOrder : IReceipt
     public virtual void PrintReceipt()
     {
         Console.WriteLine($"\n\n----- THE BILL -----\n     Your order      \nDish: {DishName}\nPrice: {Price}");
+    }
+
+    private static int Count = 0;   
+    public static void TotalCount()
+    {
+        Console.WriteLine($"\n\nTotal count of orders: {Count}");
     }
 }

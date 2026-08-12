@@ -30,6 +30,7 @@ namespace KfcOrderLab
             Console.WriteLine($"Price: {myBrandNewOrder.Price}");
 
             myBrandNewOrder.PrintReceipt();
+            KfcOrder.TotalCount();
         }
     }
 }
