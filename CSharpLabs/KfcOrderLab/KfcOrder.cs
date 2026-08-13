@@ -10,7 +10,7 @@ class KfcOrder : IReceipt
         DishName = inputDish;
         Price = inputPrice; 
         IsReady = false;
-        Count ++;
+        Count++;
     }
 
     public virtual void ServeOrder()
