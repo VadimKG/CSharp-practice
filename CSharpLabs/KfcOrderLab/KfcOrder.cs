@@ -1,21 +1,21 @@
 class KfcOrder : IReceipt
 {
 	public string DishName { get; private set; }
-	public bool IsReady { get; protected set; }
+    public OrderStatus Status { get; protected set; }
 
 	private int _price;
 
     public KfcOrder(string inputDish, int inputPrice)
     {
         DishName = inputDish;
-        Price = inputPrice; 
-        IsReady = false;
+        Price = inputPrice;
+        Status = OrderStatus.New;
         Count++;
     }
 
     public virtual void ServeOrder()
     {
-        IsReady = true;
+        Status = OrderStatus.Ready;
         Console.WriteLine($"\nYour order \"{DishName}\" is ready!");
     }
 

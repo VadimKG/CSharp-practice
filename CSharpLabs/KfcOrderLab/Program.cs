@@ -13,7 +13,7 @@ namespace KfcOrderLab
             Console.WriteLine("--- YOUR ORDER ---\n");
             Console.WriteLine($"Dish: {myOrder.DishName}");
             Console.WriteLine($"Price: {myOrder.Price}");
-            Console.WriteLine($"Ready?: {myOrder.IsReady}");
+            Console.WriteLine($"Status: {myOrder.Status}");
             orderHistory.Add(myOrder);
             myOrder.ServeOrder();
 
