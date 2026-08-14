@@ -9,7 +9,7 @@ class DeliveryOrder : KfcOrder
 
     public override void ServeOrder()
     {
-        IsReady = true;
+        Status = OrderStatus.InTransit;
         Console.WriteLine($"\nYour order \"{DishName}\" is ready!\nThe courier has picked up the order and is already on the way to {DeliveryAddress}");
     }
 
