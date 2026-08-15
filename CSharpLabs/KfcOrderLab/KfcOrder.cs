@@ -1,4 +1,4 @@
-class KfcOrder : IReceipt
+abstract class KfcOrder : IReceipt
 {
 	public string DishName { get; private set; }
     public OrderStatus Status { get; protected set; }

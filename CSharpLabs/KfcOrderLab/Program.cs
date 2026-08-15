@@ -7,8 +7,8 @@ namespace KfcOrderLab
         static void Main(string[] args)
         {
             List<KfcOrder> orderHistory = new List<KfcOrder>();
-            
-            KfcOrder myOrder = new KfcOrder("Bucket of Wings", 15);
+
+            DineInOrder myOrder = new DineInOrder("Bucket of Wings", 15);
             //myOrder.Price = -100;
             Console.WriteLine("--- YOUR ORDER ---\n");
             Console.WriteLine($"Dish: {myOrder.DishName}");
