@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TransportPractise
 {
-    public class ElectricScooter : Transport
+    public class ElectricScooter : Transport, IChargeable
     {
         public int BatteryLevel { get; set; }
 
@@ -19,6 +19,12 @@ namespace TransportPractise
                 Console.WriteLine("Battery level is too low.");
             else
                 base.Reserve();
+        }
+
+        public void Charge()
+        {
+            BatteryLevel = 100;
+            Console.WriteLine("Battery is fully charge!");
         }
     }
 }
