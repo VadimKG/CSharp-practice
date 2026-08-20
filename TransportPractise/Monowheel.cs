@@ -4,16 +4,16 @@ using System.Text;
 
 namespace TransportPractise
 {
-    public class ElectricScooter : ElectricTransport
+    public class Monowheel : ElectricTransport
     {
-        public ElectricScooter(string id, int maxZoneRadius, double pricePerMinute, int batteryLevel) : base(id, maxZoneRadius, pricePerMinute, batteryLevel) { }        
+        public Monowheel(string id, int maxZoneRadius, double pricePerMinute, int batteryLevel) : base(id, maxZoneRadius, pricePerMinute, batteryLevel) { }
 
         public override void Reserve()
         {
-            if (BatteryLevel < 10)
+            if (BatteryLevel < 20)
                 Console.WriteLine("Battery level is too low.");
             else
                 base.Reserve();
-        }   
+        }
     }
 }
