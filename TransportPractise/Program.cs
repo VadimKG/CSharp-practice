@@ -14,6 +14,7 @@ namespace TransportOrder
             {
                 scooter1,
                 new ElectricScooter("SC-002", 2500, 3.0, 9),
+                new ElectricScooter("SC-003", 2500, 3.0, -100),
                 bike1,
                 new Bicycle("BC-002", 5000, 1.0, 2),
             };
