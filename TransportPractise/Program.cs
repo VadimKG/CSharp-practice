@@ -1,5 +1,7 @@
 ﻿using System;
 using TransportPractise;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace TransportOrder
 {
@@ -9,7 +11,7 @@ namespace TransportOrder
         {
             ElectricScooter scooter1 = new ElectricScooter("SC-001", 2500, 3.0, 100);
             Bicycle bike1 = new Bicycle("BC-001", 5000, 1.0, 5);
-            Monowheel monow1 = new Monowheel("MW-001", 3500, 2.0, 35);
+            Monowheel wheel1 = new Monowheel("MW-001", 3500, 2.0, 35);
 
             List<Transport> park = new List<Transport>
             {
@@ -17,8 +19,24 @@ namespace TransportOrder
                 new ElectricScooter("SC-002", 2500, 3.0, 9),
                 bike1,
                 new Bicycle("BC-002", 5000, 1.0, 2),
-                monow1
+                wheel1
             };
+
+            var cheapTransport = park.Where(t => t.PricePerMinute < 3.0);
+
+            Console.WriteLine("Less than 3.0 \n");
+            foreach (var cht in cheapTransport)
+            {
+                Console.WriteLine($"Transport ID: {cht.ID} - Price: {cht.PricePerMinute}");
+            }
+
+            var sortedPark = park.OrderBy(t => t.PricePerMinute);
+
+            Console.WriteLine("\nSort\n");
+            foreach (var sp in sortedPark)
+            {
+                Console.WriteLine($"Transport ID: {sp.ID} - Price: {sp.PricePerMinute}");
+            }
 
             try
             {
