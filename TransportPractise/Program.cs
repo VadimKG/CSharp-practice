@@ -38,6 +38,22 @@ namespace TransportOrder
                 Console.WriteLine($"Transport ID: {sp.ID} - Price: {sp.PricePerMinute}");
             }
 
+            //LINQ
+            bool needsCharging = park.Any(t => t.PricePerMinute > 3.0);
+
+            if (needsCharging)
+                Console.WriteLine("Low battery! Please recharge!");
+
+            Console.WriteLine("\n");
+
+            var transportID = park.Select(i => i.ID);
+
+            foreach (var catalog in transportID)
+                Console.WriteLine($"List: {catalog}");
+
+            Console.WriteLine("\n");
+
+
             try
             {
                 Transport brokenWheel = new Monowheel("MW-002", 3500, -2.0, 35);
