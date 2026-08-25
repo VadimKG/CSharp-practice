@@ -13,7 +13,6 @@ namespace TransportPractise
             BatteryLevel = 100;
             Console.WriteLine("Battery is fully charge!");
         }
-
         public ElectricTransport(string id, int maxZoneRadius, double pricePerMinute, int batteryLevel)
                                 : base(id, maxZoneRadius, pricePerMinute)
         {
