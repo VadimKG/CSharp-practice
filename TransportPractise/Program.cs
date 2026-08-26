@@ -53,6 +53,19 @@ namespace TransportOrder
 
             Console.WriteLine("\n");
 
+            int cheapVehiclesCount = park.Count(t => t.PricePerMinute < 3.0);
+
+            Console.WriteLine($"Count of cheap transport: {cheapVehiclesCount}");
+
+            Console.WriteLine("\n");
+
+            var scQr = park.FirstOrDefault(q => q.ID == "SC-001");
+            if (scQr != null)
+                Console.WriteLine($"Your price for this: {scQr.PricePerMinute} zl/min");
+            else
+                Console.WriteLine("Nothing found");
+
+            Console.WriteLine("\n");
 
             try
             {
