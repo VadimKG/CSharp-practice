@@ -67,6 +67,17 @@ namespace TransportOrder
 
             Console.WriteLine("\n");
 
+            double totalSum = park.Sum(s => s.PricePerMinute);
+            Console.WriteLine($"Total cost per minute across all rented vehicles: {totalSum}");
+
+            Console.WriteLine("\n");
+
+            var premVehicle = park.MaxBy(p => p.PricePerMinute);
+            if(premVehicle != null)
+                Console.WriteLine($"The most expensive vehicle: {premVehicle.GetType().Name} - {premVehicle.PricePerMinute} zl/min");
+
+            Console.WriteLine("\n");
+
             try
             {
                 Transport brokenWheel = new Monowheel("MW-002", 3500, -2.0, 35);
