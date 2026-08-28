@@ -78,6 +78,20 @@ namespace TransportOrder
 
             Console.WriteLine("\n");
 
+            double avPrice = park.Average(a => a.PricePerMinute);
+            Console.WriteLine($"Average vehicle rental cost: {avPrice}");
+
+            Console.WriteLine("\n");
+
+            var sortTr = park.OrderBy(p => p.PricePerMinute).Take(2);
+            Console.WriteLine("The two cheapest vehicles in the entire available fleet: ");
+            foreach (var vehicle in sortTr)
+            {
+                Console.WriteLine($"{vehicle.GetType().Name} - {vehicle.PricePerMinute}");
+            }
+
+            Console.WriteLine("\n");
+
             try
             {
                 Transport brokenWheel = new Monowheel("MW-002", 3500, -2.0, 35);
