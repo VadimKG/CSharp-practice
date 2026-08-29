@@ -92,6 +92,20 @@ namespace TransportOrder
 
             Console.WriteLine("\n");
 
+            var sortTrSecPage = park.OrderBy(secP => secP.PricePerMinute).Skip(2).Take(2);
+            Console.WriteLine("Vehicles on the second page: ");
+            foreach (var vehicle2 in sortTrSecPage)
+            {
+                Console.WriteLine($"{vehicle2.GetType().Name} - {vehicle2.PricePerMinute}");
+            }
+
+            Console.WriteLine("\n");
+
+            bool allVehiclePlus = park.All(vehicle => vehicle.PricePerMinute > 0);
+            Console.WriteLine($"All vehicles have a rental price greater than zero: {(allVehiclePlus ? "Yes" : "No")}");
+
+            Console.WriteLine("\n");
+
             try
             {
                 Transport brokenWheel = new Monowheel("MW-002", 3500, -2.0, 35);
