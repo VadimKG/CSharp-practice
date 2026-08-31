@@ -7,7 +7,7 @@ namespace TransportOrder
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             ElectricScooter scooter1 = new ElectricScooter("SC-001", 2500, 3.0, 100);
             Bicycle bike1 = new Bicycle("BC-001", 5000, 1.0, 5);
@@ -125,39 +125,56 @@ namespace TransportOrder
 
 
 
+            Console.WriteLine("Verifying the bank card...");
+
+            CancellationTokenSource cts = new CancellationTokenSource();
+
+            cts.CancelAfter(1000);
+
+            try
+            {
+                await Task.Delay(3000, cts.Token);
+                Console.WriteLine("Payment has been processed successfully! The vehicle is now unlocked");
+
+            }
+            catch(TaskCanceledException)
+            {
+                Console.WriteLine("Operation canceled: The customer has canceled the payment");
+            }
 
 
 
 
-            Console.WriteLine("--- Тест Структуры (Value Type) ---");
-            PointStruct structA = new PointStruct { X = 10 };
-            PointStruct structB = structA; // В памяти создается независимый физический клон
-            structB.X = 999;
 
-            Console.WriteLine($"Оригинал (structA): {structA.X}");
-            Console.WriteLine($"Копия (structB): {structB.X}\n");
+                //Console.WriteLine("--- Structure test (Value Type) ---");
+                //PointStruct structA = new PointStruct { X = 10 };
+                //PointStruct structB = structA; // В памяти создается независимый физический клон
+                //structB.X = 999;
+
+                //Console.WriteLine($"Original (structA): {structA.X}");
+                //Console.WriteLine($"Copy (structB): {structB.X}\n");
 
 
-            Console.WriteLine("--- Тест Класса (Reference Type) ---");
-            PointClass classA = new PointClass { X = 10 };
-            PointClass classB = classA; // Копируется только адрес, сам объект остался один
-            classB.X = 999;
+                //Console.WriteLine("--- Class test (Reference Type) ---");
+                //PointClass classA = new PointClass { X = 10 };
+                //PointClass classB = classA; // Копируется только адрес, сам объект остался один
+                //classB.X = 999;
 
-            Console.WriteLine($"Оригинал (classA): {classA.X}");
-            Console.WriteLine($"Копия (classB): {classB.X}");
+                //Console.WriteLine($"Original (classA): {classA.X}");
+                //Console.WriteLine($"Copy (classB): {classB.X}");
+            }
+
+
+
         }
+        //// 2. В САМОМ НИЗУ ИДЕТ ШАГ 1 (Объявление типов)
+        //    struct PointStruct
+        //    {
+        //        public int X;
+        //    }
 
-
-        
+        //    class PointClass
+        //    {
+        //        public int X;
+        //    }
     }
-    // 2. В САМОМ НИЗУ ИДЕТ ШАГ 1 (Объявление типов)
-        struct PointStruct
-        {
-            public int X;
-        }
-
-        class PointClass
-        {
-            public int X;
-        }
-}
