@@ -73,7 +73,7 @@ namespace TransportOrder
             Console.WriteLine("\n");
 
             var premVehicle = park.MaxBy(p => p.PricePerMinute);
-            if(premVehicle != null)
+            if (premVehicle != null)
                 Console.WriteLine($"The most expensive vehicle: {premVehicle.GetType().Name} - {premVehicle.PricePerMinute} zl/min");
 
             Console.WriteLine("\n");
@@ -122,6 +122,42 @@ namespace TransportOrder
             }
 
             Console.WriteLine($"Number of vehicles: {Transport.TotalCount}");
-        } 
+
+
+
+
+
+
+
+            Console.WriteLine("--- Тест Структуры (Value Type) ---");
+            PointStruct structA = new PointStruct { X = 10 };
+            PointStruct structB = structA; // В памяти создается независимый физический клон
+            structB.X = 999;
+
+            Console.WriteLine($"Оригинал (structA): {structA.X}");
+            Console.WriteLine($"Копия (structB): {structB.X}\n");
+
+
+            Console.WriteLine("--- Тест Класса (Reference Type) ---");
+            PointClass classA = new PointClass { X = 10 };
+            PointClass classB = classA; // Копируется только адрес, сам объект остался один
+            classB.X = 999;
+
+            Console.WriteLine($"Оригинал (classA): {classA.X}");
+            Console.WriteLine($"Копия (classB): {classB.X}");
+        }
+
+
+        
     }
+    // 2. В САМОМ НИЗУ ИДЕТ ШАГ 1 (Объявление типов)
+        struct PointStruct
+        {
+            public int X;
+        }
+
+        class PointClass
+        {
+            public int X;
+        }
 }
