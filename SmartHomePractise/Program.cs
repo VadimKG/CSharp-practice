@@ -9,27 +9,45 @@ namespace SmartHomePractise
         {
             List<SmartDevice> device = new List<SmartDevice>()
             {
-                new SmartSpeaker { Name = "Apple HomePode"},
-                new SmartLamp { Name = "Xiaomi Lamp"}
+                new SmartSpeaker ("Apple HomePode", 30, false),
+                new SmartSpeaker ("Samsung HomePode", 95, true),
+                new SmartSpeaker ("Xiaomi HomePode", 15, true),
+                new SmartLamp ("Xiaomi Lamp", 10, false),
+                new SmartLamp ("Apple Lamp", 45, true)
             };
 
-            foreach (var currentDevice in device)
+            var activeDevice = device
+                .Where(d => d.IsOn)
+                .OrderBy(a => a.Name).ToList();
+            foreach (var sortDevice in activeDevice)
             {
-                currentDevice.TurnON();
+                Console.WriteLine($"Active devices: {sortDevice.Name}");
             }
+            Console.WriteLine("\n");
 
-            try
-            {
-                SmartSpeaker HomePode = new SmartSpeaker { Name = "Apple HomePode 2" };
-                HomePode.ChangeVolume(10);
+            int activeCount = activeDevice.Count();
+            Console.WriteLine($"Count of active devices: {activeCount}");
 
-                SmartLamp XiaomiLamp = new SmartLamp { Name = "Xiaomi Lamp" };
-                XiaomiLamp.ChangeBrightness(-30);
-            }
-            catch(ArgumentException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
+            var loudestSpeaker = device.OfType<SmartSpeaker>().MaxBy(l => l.VolumeLevel);
+            Console.WriteLine($"The loudest speaker is {loudestSpeaker?.Name}");
+
+            //foreach (var currentDevice in device)
+            //{
+            //    currentDevice.TurnON();
+            //}
+
+            //try
+            //{
+            //    SmartSpeaker HomePode = new SmartSpeaker ("Apple HomePode", 30, false);
+            //    HomePode.ChangeVolume(150);
+
+            //    SmartLamp XiaomiLamp = new SmartLamp("Xiaomi Lamp", 10, false);
+            //    XiaomiLamp.ChangeBrightness(-30);
+            //}
+            //catch(ArgumentException ex)
+            //{
+            //    Console.WriteLine($"Error: {ex.Message}");
+            //}
         }
     }
 }
