@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace SmartHomePractise
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             List<SmartDevice> device = new List<SmartDevice>()
             {
@@ -30,6 +31,22 @@ namespace SmartHomePractise
 
             var loudestSpeaker = device.OfType<SmartSpeaker>().MaxBy(l => l.VolumeLevel);
             Console.WriteLine($"The loudest speaker is {loudestSpeaker?.Name}");
+
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(1000);
+
+            try
+            {
+                await loudestSpeaker!.ConnectBluetoothAsync(cts.Token);
+            }
+            catch(TaskCanceledException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+
+
+
 
             //foreach (var currentDevice in device)
             //{

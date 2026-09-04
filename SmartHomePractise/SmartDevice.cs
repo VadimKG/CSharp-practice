@@ -4,17 +4,29 @@ using System.Text;
 
 namespace SmartHomePractise
 {
+    public struct DeviceCoordinates
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+    }
+
     abstract class SmartDevice
     {
+        public DeviceCoordinates Location { get; set; }
         public string? Name { get; set; }
         public bool IsOn { get; set; } = false;
 
         public abstract void TurnON();
-
     }
 
     class SmartSpeaker : SmartDevice
     {
+        public async Task ConnectBluetoothAsync(CancellationToken token)
+        {
+            Console.WriteLine("Searching for Bluetooth...");
+            await Task.Delay(3000, token);
+            Console.WriteLine("Bluetooth connected successfully.");
+        }
         public int VolumeLevel { get; private set; }
 
         public SmartSpeaker(string name, int initialVolume, bool isOn = false)
