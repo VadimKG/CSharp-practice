@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartHome.API.Models;
+using SmartHome.API.Services;
 
 namespace SmartHome.API.Controllers
 {
@@ -7,44 +8,40 @@ namespace SmartHome.API.Controllers
     [Route("api/[controller]")]
     public class DeviceController : ControllerBase
     {
+        private readonly IDeviceService _deviceService;
+        public DeviceController(IDeviceService deviceService)
+        {
+            _deviceService = deviceService;
+        }
         [HttpGet]
         public ActionResult<IEnumerable<SmartDevice>> GetList()
         {
-            return Ok(_devices);
+            return Ok(_deviceService.GetAll());
         }
 
         [HttpGet("{id}")]
         public ActionResult<SmartDevice> GetDevice(int id)
         {
-            var device = _devices.FirstOrDefault(d => d.ID == id);
+            var device = _deviceService.GetById(id);
             if (device == null)
                 return NotFound();
-            else
-                return Ok(device);
-        }
 
-        private static List<SmartDevice> _devices = new List<SmartDevice>()
-        {
-            new SmartDevice { ID = 1, Name = "Xiaomi Lamp", IsOn = false },
-            new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = true }
-        };
+            return Ok(device);
+        }
 
         [HttpPost]
         public ActionResult AddDevice(SmartDevice newDevice)
         {
-            _devices.Add(newDevice);
-            return Created("", newDevice);
+            var createdDevice = _deviceService.Add(newDevice);
+            return Created("", createdDevice);
         }
 
         [HttpPut("{id}")]
         public ActionResult UpdateDevice(int id, SmartDevice updatedDevice)
         {
-            var up_device = _devices.FirstOrDefault(d => d.ID == id);
-            if (up_device == null)
+            var updated = _deviceService.Update(id, updatedDevice);
+            if (!updated)
                 return NotFound();
-
-            up_device.Name = updatedDevice.Name;
-            up_device.IsOn = updatedDevice.IsOn;
 
             return NoContent();
         }
@@ -52,12 +49,10 @@ namespace SmartHome.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteDevice(int id)
         {
-            var device_d = _devices.FirstOrDefault(del => del.ID == id);
-            if (device_d == null)
+            var deleted = _deviceService.Delete(id);
+            if (!deleted)
                 return NotFound();
-            
-            _devices.Remove(device_d);
-            
+
             return NoContent();
         }
     }
