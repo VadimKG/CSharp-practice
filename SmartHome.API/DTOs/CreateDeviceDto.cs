@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmartHome.API.Models
+namespace SmartHome.API.DTOs
 {
-    public class SmartDevice
+    public class CreateDeviceDto
     {
-        public int ID { get; set; }
-        [Required(ErrorMessage = "The device name is required!")]
+        [Required(ErrorMessage = "The device name is required")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "The name must contain between 2 and 20 characters.")]
         public string Name { get; set; } = string.Empty;
         public bool IsOn { get; set; }

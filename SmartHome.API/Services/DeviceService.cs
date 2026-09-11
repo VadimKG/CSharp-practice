@@ -21,6 +21,14 @@ namespace SmartHome.API.Services
         }
         public SmartDevice Add(SmartDevice device)
         {
+            if (_devices.Count == 0)
+            {
+                device.ID = 1;
+            }
+            else
+            {
+                device.ID = _devices.Max(d => d.ID) + 1;    
+            }
             _devices.Add(device);
             return device;
         }

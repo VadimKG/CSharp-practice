@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartHome.API.Models;
 using SmartHome.API.Services;
+using SmartHome.API.DTOs;
 
 namespace SmartHome.API.Controllers
 {
@@ -30,8 +31,9 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddDevice(SmartDevice newDevice)
+        public ActionResult AddDevice(CreateDeviceDto dto)
         {
+            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn };
             var createdDevice = _deviceService.Add(newDevice);
             return Created("", createdDevice);
         }
