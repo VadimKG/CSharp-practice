@@ -39,9 +39,10 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateDevice(int id, SmartDevice updatedDevice)
+        public ActionResult UpdateDevice(int id, UpdateDeviceDto dto)
         {
-            var updated = _deviceService.Update(id, updatedDevice);
+            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn };
+            var updated = _deviceService.Update(id, newDevice);
             if (!updated)
                 return NotFound();
 
