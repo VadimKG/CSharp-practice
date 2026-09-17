@@ -11,9 +11,18 @@ namespace SmartHome.API.Services
             new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = true }
         };
 
-        public List<SmartDevice> GetAll()
+        public List<SmartDevice> GetAll(bool? IsOn)
         {
-            return _devices;
+            if (IsOn == null)
+            {
+                return _devices;
+            }
+
+            else
+            {
+                var device_filtr = _devices.Where(d => d.IsOn == IsOn).ToList();
+                return device_filtr;
+            }
         }
         public SmartDevice? GetById(int id)
         {
