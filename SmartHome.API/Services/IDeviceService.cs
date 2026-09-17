@@ -4,7 +4,7 @@ namespace SmartHome.API.Services
 {
     public interface IDeviceService
     {
-        List<SmartDevice> GetAll();
+        List<SmartDevice> GetAll(bool? IsOn);
         SmartDevice? GetById(int id);
         SmartDevice Add(SmartDevice device);
         bool Update(int id, SmartDevice device);
