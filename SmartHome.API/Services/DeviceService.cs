@@ -11,18 +11,21 @@ namespace SmartHome.API.Services
             new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = true }
         };
 
-        public List<SmartDevice> GetAll(bool? IsOn)
+        public List<SmartDevice> GetAll(bool? IsOn, bool? sortByAlphabet)
         {
-            if (IsOn == null)
+            IEnumerable<SmartDevice> result = _devices;
+
+            if (IsOn != null)
             {
-                return _devices;
+                result = result.Where(d => d.IsOn == IsOn);
             }
 
-            else
+            if(sortByAlphabet == true)
             {
-                var device_filtr = _devices.Where(d => d.IsOn == IsOn).ToList();
-                return device_filtr;
+                result = result.OrderBy(fa => fa.Name);
             }
+
+            return result.ToList();
         }
         public SmartDevice? GetById(int id)
         {
