@@ -8,10 +8,12 @@ namespace SmartHome.API.Services
         private static List<SmartDevice> _devices = new List<SmartDevice>()
         {
             new SmartDevice { ID = 1, Name = "Xiaomi Lamp", IsOn = false },
-            new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = true }
+            new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = true },
+            new SmartDevice { ID = 3, Name = "Samsung Lamp", IsOn = false },
+            new SmartDevice { ID = 4, Name = "Philips Lamp", IsOn = true }
         };
 
-        public List<SmartDevice> GetAll(bool? IsOn, bool? sortByAlphabet)
+        public List<SmartDevice> GetAll(bool? IsOn, bool? sortByAlphabet, int pageNumber, int pageSize)
         {
             IEnumerable<SmartDevice> result = _devices;
 
@@ -25,7 +27,9 @@ namespace SmartHome.API.Services
                 result = result.OrderBy(fa => fa.Name);
             }
 
-            return result.ToList();
+            return result.Skip((pageNumber - 1) * pageSize)
+                         .Take(pageSize)
+                         .ToList();
         }
         public SmartDevice? GetById(int id)
         {
