@@ -15,9 +15,9 @@ namespace SmartHome.API.Controllers
             _deviceService = deviceService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<SmartDevice>> GetList(bool? IsOn, bool? sortByAlphabet)
+        public ActionResult<IEnumerable<SmartDevice>> GetList(bool? IsOn, bool? sortByAlphabet, int pageNumber = 1, int pageSize = 10)
         {
-            return Ok(_deviceService.GetAll(IsOn, sortByAlphabet)); 
+            return Ok(_deviceService.GetAll(IsOn, sortByAlphabet, pageNumber, pageSize)); 
         }
 
         [HttpGet("{id}")]
