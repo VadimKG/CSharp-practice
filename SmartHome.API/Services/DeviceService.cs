@@ -7,24 +7,29 @@ namespace SmartHome.API.Services
     {
         private static List<SmartDevice> _devices = new List<SmartDevice>()
         {
-            new SmartDevice { ID = 1, Name = "Xiaomi Lamp", IsOn = false },
-            new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = true },
-            new SmartDevice { ID = 3, Name = "Samsung Lamp", IsOn = false },
-            new SmartDevice { ID = 4, Name = "Philips Lamp", IsOn = true }
+            new SmartDevice { ID = 1, Name = "Xiaomi Lamp", IsOn = false, Type = DeviceType.Lamp },
+            new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = true, Type = DeviceType.Lamp },
+            new SmartDevice { ID = 3, Name = "Samsung Camera", IsOn = false, Type = DeviceType.Camera },
+            new SmartDevice { ID = 4, Name = "Philips Speaker", IsOn = true, Type = DeviceType.Speaker }
         };
 
-        public List<SmartDevice> GetAll(bool? IsOn, bool? sortByAlphabet, int pageNumber, int pageSize)
+        public List<SmartDevice> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber, int pageSize)
         {
             IEnumerable<SmartDevice> result = _devices;
 
-            if (IsOn != null)
+            if (isOn != null)
             {
-                result = result.Where(d => d.IsOn == IsOn);
+                result = result.Where(d => d.IsOn == isOn);
             }
 
             if(sortByAlphabet == true)
             {
                 result = result.OrderBy(fa => fa.Name);
+            }
+
+            if (type != null)
+            {
+                result = result.Where(t => t.Type == type);
             }
 
             return result.Skip((pageNumber - 1) * pageSize)
@@ -56,6 +61,7 @@ namespace SmartHome.API.Services
 
             up_device.Name = updatedDevice.Name;
             up_device.IsOn = updatedDevice.IsOn;
+            up_device.Type = updatedDevice.Type;
 
             return true;
         }
