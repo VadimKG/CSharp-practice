@@ -15,9 +15,9 @@ namespace SmartHome.API.Controllers
             _deviceService = deviceService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<SmartDevice>> GetList(bool? IsOn, bool? sortByAlphabet, int pageNumber = 1, int pageSize = 10)
+        public ActionResult<IEnumerable<SmartDevice>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber = 1, int pageSize = 10)
         {
-            return Ok(_deviceService.GetAll(IsOn, sortByAlphabet, pageNumber, pageSize)); 
+            return Ok(_deviceService.GetAll(isOn, sortByAlphabet, type, pageNumber, pageSize)); 
         }
 
         [HttpGet("{id}")]
@@ -33,7 +33,7 @@ namespace SmartHome.API.Controllers
         [HttpPost]
         public ActionResult AddDevice(CreateDeviceDto dto)
         {
-            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn };
+            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
             var createdDevice = _deviceService.Add(newDevice);
             return Created("", createdDevice);
         }
@@ -41,7 +41,7 @@ namespace SmartHome.API.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateDevice(int id, UpdateDeviceDto dto)
         {
-            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn };
+            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
             var updated = _deviceService.Update(id, newDevice);
             if (!updated)
                 return NotFound();
