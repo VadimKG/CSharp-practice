@@ -9,5 +9,6 @@ namespace SmartHome.API.Services
         SmartDevice Add(SmartDevice device);
         bool Update(int id, SmartDevice device);
         bool Delete(int id);
+        Dictionary<DeviceType, int> GetStats();
     }
 }
