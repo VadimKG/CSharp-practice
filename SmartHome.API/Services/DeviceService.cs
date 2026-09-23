@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using SmartHome.API.Models;
 
 namespace SmartHome.API.Services
@@ -74,6 +75,12 @@ namespace SmartHome.API.Services
             _devices.Remove(device_d);
 
             return true;
+        }
+
+        public Dictionary<DeviceType, int> GetStats()
+        {
+            var st_device = _devices.GroupBy(st => st.Type);
+            return st_device.ToDictionary(g => g.Key, g => g.Count());
         }
     }
 }

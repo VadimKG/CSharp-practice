@@ -30,6 +30,13 @@ namespace SmartHome.API.Controllers
             return Ok(device);
         }
 
+        [HttpGet("stats")]
+        public ActionResult<Dictionary<DeviceType, int>> GetStats()
+        {
+            var st_device = _deviceService.GetStats();
+            return Ok(st_device);
+        }
+
         [HttpPost]
         public ActionResult AddDevice(CreateDeviceDto dto)
         {
