@@ -14,7 +14,7 @@ namespace SmartHome.API.Services
             new SmartDevice { ID = 4, Name = "Philips Speaker", IsOn = true, Type = DeviceType.Speaker }
         };
 
-        public List<SmartDevice> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber, int pageSize)
+        public async Task<List<SmartDevice>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber, int pageSize)
         {
             IEnumerable<SmartDevice> result = _devices;
 
@@ -33,15 +33,15 @@ namespace SmartHome.API.Services
                 result = result.Where(t => t.Type == type);
             }
 
-            return result.Skip((pageNumber - 1) * pageSize)
+            return await Task.FromResult(result.Skip((pageNumber - 1) * pageSize)
                          .Take(pageSize)
-                         .ToList();
+                         .ToList());
         }
-        public SmartDevice? GetById(int id)
+        public async Task<SmartDevice?> GetById(int id)
         {
-            return _devices.FirstOrDefault(d => d.ID == id);
+            return await Task.FromResult(_devices.FirstOrDefault(d => d.ID == id));
         }
-        public SmartDevice Add(SmartDevice device)
+        public async Task<SmartDevice> Add(SmartDevice device)
         {
             if (_devices.Count == 0)
             {
@@ -52,35 +52,35 @@ namespace SmartHome.API.Services
                 device.ID = _devices.Max(d => d.ID) + 1;    
             }
             _devices.Add(device);
-            return device;
+            return await Task.FromResult(device);
         }
-        public bool Update(int id, SmartDevice updatedDevice)
+        public async Task<bool> Update(int id, SmartDevice updatedDevice)
         {
             var up_device = _devices.FirstOrDefault(d => d.ID == id);
             if (up_device == null)
-                return false;
+                return await Task.FromResult(false);
 
             up_device.Name = updatedDevice.Name;
             up_device.IsOn = updatedDevice.IsOn;
             up_device.Type = updatedDevice.Type;
 
-            return true;
+            return await Task.FromResult(true);
         }
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var device_d = _devices.FirstOrDefault(del => del.ID == id);
             if (device_d == null)
-                return false;
+                return await Task.FromResult(false);
 
             _devices.Remove(device_d);
 
-            return true;
+            return await Task.FromResult(true);
         }
 
-        public Dictionary<DeviceType, int> GetStats()
+        public async Task<Dictionary<DeviceType, int>> GetStats()
         {
             var st_device = _devices.GroupBy(st => st.Type);
-            return st_device.ToDictionary(g => g.Key, g => g.Count());
+            return await Task.FromResult(st_device.ToDictionary(g => g.Key, g => g.Count()));
         }
     }
 }
