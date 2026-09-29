@@ -4,11 +4,11 @@ namespace SmartHome.API.Services
 {
     public interface IDeviceService
     {
-        List<SmartDevice> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber, int pageSize);
-        SmartDevice? GetById(int id);
-        SmartDevice Add(SmartDevice device);
-        bool Update(int id, SmartDevice device);
-        bool Delete(int id);
-        Dictionary<DeviceType, int> GetStats();
+        Task<List<SmartDevice>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber, int pageSize);
+        Task<SmartDevice?> GetById(int id);
+        Task<SmartDevice> Add(SmartDevice device);
+        Task<bool> Update(int id, SmartDevice device);
+        Task<bool> Delete(int id);
+        Task<Dictionary<DeviceType, int>> GetStats();
     }
 }

@@ -14,16 +14,17 @@ namespace SmartHome.API.Controllers
         {
             _deviceService = deviceService;
         }
+
         [HttpGet]
-        public ActionResult<IEnumerable<SmartDevice>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<SmartDevice>>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber = 1, int pageSize = 10)
         {
-            return Ok(_deviceService.GetAll(isOn, sortByAlphabet, type, pageNumber, pageSize)); 
+            return Ok(await _deviceService.GetAll(isOn, sortByAlphabet, type, pageNumber, pageSize)); 
         }
 
         [HttpGet("{id}")]
-        public ActionResult<SmartDevice> GetDevice(int id)
+        public async Task<ActionResult<SmartDevice>> GetDevice(int id)
         {
-            var device = _deviceService.GetById(id);
+            var device = await _deviceService.GetById(id);
             if (device == null)
                 return NotFound();
 
@@ -31,25 +32,25 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpGet("stats")]
-        public ActionResult<Dictionary<DeviceType, int>> GetStats()
+        public async Task<ActionResult<Dictionary<DeviceType, int>>> GetStats()
         {
-            var st_device = _deviceService.GetStats();
+            var st_device = await _deviceService.GetStats();
             return Ok(st_device);
         }
 
         [HttpPost]
-        public ActionResult AddDevice(CreateDeviceDto dto)
+        public async Task<ActionResult> AddDevice(CreateDeviceDto dto)
         {
             var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
-            var createdDevice = _deviceService.Add(newDevice);
+            var createdDevice = await _deviceService.Add(newDevice);
             return Created("", createdDevice);
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateDevice(int id, UpdateDeviceDto dto)
+        public async Task<ActionResult> UpdateDevice(int id, UpdateDeviceDto dto)
         {
             var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
-            var updated = _deviceService.Update(id, newDevice);
+            var updated = await _deviceService.Update(id, newDevice);
             if (!updated)
                 return NotFound();
 
@@ -57,9 +58,9 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteDevice(int id)
+        public async Task<ActionResult> DeleteDevice(int id)
         {
-            var deleted = _deviceService.Delete(id);
+            var deleted = await _deviceService.Delete(id);
             if (!deleted)
                 return NotFound();
 
