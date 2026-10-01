@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SmartHome.API.Data;
 using SmartHome.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,13 +10,16 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();   
+    app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
