@@ -15,7 +15,7 @@ namespace SmartHome.API.Services
             _context = context;
         }
 
-        public async Task<List<SmartDevice>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, int pageNumber, int pageSize)
+        public async Task<List<SmartDevice>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber, int pageSize)
         {
             IQueryable<SmartDevice> query = _context.Devices;
             if (isOn != null)
@@ -31,6 +31,11 @@ namespace SmartHome.API.Services
             if (type != null)
             {
                 query = query.Where(t => t.Type == type);
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                query = query.Where(s => s.Name.ToLower().Contains(searchQuery.ToLower()));
             }
 
             return await query.Skip((pageNumber - 1) * pageSize)
