@@ -1,10 +1,11 @@
-﻿using SmartHome.API.Models;
+﻿using SmartHome.API.DTOs;
+using SmartHome.API.Models;
 
 namespace SmartHome.API.Services
 {
     public interface IDeviceService
     {
-        Task<List<SmartDevice>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber, int pageSize);
+        Task<List<DeviceResponseDto>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber, int pageSize);
         Task<SmartDevice?> GetById(int id);
         Task<SmartDevice> Add(SmartDevice device);
         Task<bool> Update(int id, SmartDevice device);

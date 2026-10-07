@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using SmartHome.API.Data;
-using SmartHome.API.Models;
 using Microsoft.EntityFrameworkCore;
+using SmartHome.API.Data;
+using SmartHome.API.DTOs;
+using SmartHome.API.Models;
 
 namespace SmartHome.API.Services
 {
@@ -15,7 +16,7 @@ namespace SmartHome.API.Services
             _context = context;
         }
 
-        public async Task<List<SmartDevice>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber, int pageSize)
+        public async Task<List<DeviceResponseDto>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber, int pageSize)
         {
             IQueryable<SmartDevice> query = _context.Devices;
             if (isOn != null)
@@ -38,7 +39,15 @@ namespace SmartHome.API.Services
                 query = query.Where(s => s.Name.ToLower().Contains(searchQuery.ToLower()));
             }
 
-            return await query.Skip((pageNumber - 1) * pageSize)
+
+            return await query.Select(d => new DeviceResponseDto 
+                         { 
+                            Id = d.ID,
+                            Name = d.Name,
+                            IsOn = d.IsOn,
+                            Type = d.Type 
+                          })
+                         .Skip((pageNumber - 1) * pageSize)
                          .Take(pageSize)
                          .ToListAsync();
         }
