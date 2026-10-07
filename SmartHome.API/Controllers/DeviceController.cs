@@ -16,7 +16,7 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SmartDevice>>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<DeviceResponseDto>>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
             return Ok(await _deviceService.GetAll(isOn, sortByAlphabet, type, searchQuery, pageNumber, pageSize)); 
         }
