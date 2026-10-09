@@ -22,7 +22,7 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SmartDevice>> GetDevice(int id)
+        public async Task<ActionResult<DeviceResponseDto>> GetDevice(int id)
         {
             var device = await _deviceService.GetById(id);
             if (device == null)
@@ -39,11 +39,11 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddDevice(CreateDeviceDto dto)
+        public async Task<ActionResult<DeviceResponseDto>> AddDevice(CreateDeviceDto dto)
         {
             var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
             var createdDevice = await _deviceService.Add(newDevice);
-            return Created("", createdDevice);
+            return CreatedAtAction(nameof(GetDevice), new { id = createdDevice.Id }, createdDevice);
         }
 
         [HttpPut("{id}")]

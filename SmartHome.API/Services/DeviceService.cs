@@ -47,19 +47,39 @@ namespace SmartHome.API.Services
                             IsOn = d.IsOn,
                             Type = d.Type 
                           })
+
                          .Skip((pageNumber - 1) * pageSize)
                          .Take(pageSize)
                          .ToListAsync();
         }
-        public async Task<SmartDevice?> GetById(int id)
+        public async Task<DeviceResponseDto?> GetById(int id)
         {
-            return await _context.Devices.FirstOrDefaultAsync(d => d.ID == id);
+            var device = await _context.Devices.FirstOrDefaultAsync(d => d.ID == id);
+
+            if (device == null)
+            {
+                return null;
+            }
+            return new DeviceResponseDto 
+            { 
+                Id = device.ID,
+                Name = device.Name,
+                IsOn = device.IsOn,
+                Type = device.Type 
+            };
         }
-        public async Task<SmartDevice> Add(SmartDevice device)
+        public async Task<DeviceResponseDto> Add(SmartDevice device)
         {
             _context.Devices.Add(device);
             await _context.SaveChangesAsync();
-            return device;
+
+            return new DeviceResponseDto
+            {
+                Id = device.ID,
+                Name = device.Name,
+                IsOn = device.IsOn,
+                Type = device.Type
+            };
         }
         public async Task<bool> Update(int id, SmartDevice updatedDevice)
         {
