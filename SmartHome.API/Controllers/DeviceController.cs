@@ -10,10 +10,14 @@ namespace SmartHome.API.Controllers
     public class DeviceController : ControllerBase
     {
         private readonly IDeviceService _deviceService;
-        public DeviceController(IDeviceService deviceService)
+        private readonly ILogger<DeviceController> _logger;
+
+        public DeviceController(IDeviceService deviceService, ILogger<DeviceController> logger)
         {
             _deviceService = deviceService;
+            _logger = logger;
         }
+        
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeviceResponseDto>>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber = 1, int pageSize = 10)
@@ -43,6 +47,7 @@ namespace SmartHome.API.Controllers
         {
             var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
             var createdDevice = await _deviceService.Add(newDevice);
+            _logger.LogInformation("Device added successfully: {DeviceName}", newDevice.Name);
             return CreatedAtAction(nameof(GetDevice), new { id = createdDevice.Id }, createdDevice);
         }
 
@@ -64,6 +69,7 @@ namespace SmartHome.API.Controllers
             if (!deleted)
                 return NotFound();
 
+            _logger.LogInformation("Device with ID:  {Id}  has been deleted", id);
             return NoContent();
         }
     }
