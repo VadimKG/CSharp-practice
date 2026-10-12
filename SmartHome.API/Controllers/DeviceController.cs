@@ -45,10 +45,18 @@ namespace SmartHome.API.Controllers
         [HttpPost]
         public async Task<ActionResult<DeviceResponseDto>> AddDevice(CreateDeviceDto dto)
         {
-            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
-            var createdDevice = await _deviceService.Add(newDevice);
-            _logger.LogInformation("Device added successfully: {DeviceName}", newDevice.Name);
-            return CreatedAtAction(nameof(GetDevice), new { id = createdDevice.Id }, createdDevice);
+            try
+            {
+                var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
+                var createdDevice = await _deviceService.Add(newDevice);
+                _logger.LogInformation("Device added successfully: {DeviceName}", newDevice.Name);
+                return CreatedAtAction(nameof(GetDevice), new { id = createdDevice.Id }, createdDevice);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing the request for devices.");
+                return StatusCode(500, "An internal server error occurred. Please try again later.");
+            }
         }
 
         [HttpPut("{id}")]
