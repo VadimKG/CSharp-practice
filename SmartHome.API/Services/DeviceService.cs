@@ -16,7 +16,7 @@ namespace SmartHome.API.Services
             _context = context;
         }
 
-        public async Task<List<DeviceResponseDto>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, int pageNumber, int pageSize)
+        public async Task<List<DeviceResponseDto>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, CancellationToken cancellationToken, int pageNumber, int pageSize)
         {
             IQueryable<SmartDevice> query = _context.Devices;
             if (isOn != null)
@@ -40,17 +40,17 @@ namespace SmartHome.API.Services
             }
 
 
-            return await query.Select(d => new DeviceResponseDto 
-                         { 
-                            Id = d.ID,
-                            Name = d.Name,
-                            IsOn = d.IsOn,
-                            Type = d.Type 
-                          })
+            return await query.Select(d => new DeviceResponseDto
+            {
+                Id = d.ID,
+                Name = d.Name,
+                IsOn = d.IsOn,
+                Type = d.Type
+            })
 
                          .Skip((pageNumber - 1) * pageSize)
                          .Take(pageSize)
-                         .ToListAsync();
+                         .ToListAsync(cancellationToken);
         }
         public async Task<DeviceResponseDto?> GetById(int id)
         {
