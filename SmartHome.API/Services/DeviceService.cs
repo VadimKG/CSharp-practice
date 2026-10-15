@@ -52,9 +52,9 @@ namespace SmartHome.API.Services
                          .Take(pageSize)
                          .ToListAsync(cancellationToken);
         }
-        public async Task<DeviceResponseDto?> GetById(int id)
+        public async Task<DeviceResponseDto?> GetById(int id, CancellationToken cancellationToken)
         {
-            var device = await _context.Devices.FirstOrDefaultAsync(d => d.ID == id);
+            var device = await _context.Devices.FirstOrDefaultAsync(d => d.ID == id, cancellationToken);
 
             if (device == null)
             {
@@ -68,10 +68,10 @@ namespace SmartHome.API.Services
                 Type = device.Type 
             };
         }
-        public async Task<DeviceResponseDto> Add(SmartDevice device)
+        public async Task<DeviceResponseDto> Add(SmartDevice device, CancellationToken cancellationToken)
         {
             _context.Devices.Add(device);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new DeviceResponseDto
             {
@@ -81,7 +81,7 @@ namespace SmartHome.API.Services
                 Type = device.Type
             };
         }
-        public async Task<bool> Update(int id, SmartDevice updatedDevice)
+        public async Task<bool> Update(int id, SmartDevice updatedDevice, CancellationToken cancellationToken)
         {
             var up_device = await _context.Devices.FirstOrDefaultAsync(d => d.ID == id);
             if (up_device == null)
@@ -94,7 +94,7 @@ namespace SmartHome.API.Services
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, CancellationToken cancellationToken)
         {
             var device_d = await _context.Devices.FirstOrDefaultAsync(del => del.ID == id);
             if (device_d == null)

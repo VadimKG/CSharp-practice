@@ -26,9 +26,9 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DeviceResponseDto>> GetDevice(int id)
+        public async Task<ActionResult<DeviceResponseDto>> GetDevice(int id, CancellationToken cancellationToken)
         {
-            var device = await _deviceService.GetById(id);
+            var device = await _deviceService.GetById(id, cancellationToken);
             if (device == null)
                 return NotFound();
 
@@ -43,19 +43,19 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<DeviceResponseDto>> AddDevice(CreateDeviceDto dto)
+        public async Task<ActionResult<DeviceResponseDto>> AddDevice(CreateDeviceDto dto, CancellationToken cancellationToken)
         {
                 var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
-                var createdDevice = await _deviceService.Add(newDevice);
+                var createdDevice = await _deviceService.Add(newDevice, cancellationToken);
                 _logger.LogInformation("Device added successfully: {DeviceName}", newDevice.Name);
                 return CreatedAtAction(nameof(GetDevice), new { id = createdDevice.Id }, createdDevice);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateDevice(int id, UpdateDeviceDto dto)
+        public async Task<ActionResult> UpdateDevice(int id, UpdateDeviceDto dto, CancellationToken cancellationToken)
         {
             var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
-            var updated = await _deviceService.Update(id, newDevice);
+            var updated = await _deviceService.Update(id, newDevice, cancellationToken);
             if (!updated)
                 return NotFound();
 
@@ -63,9 +63,9 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteDevice(int id)
+        public async Task<ActionResult> DeleteDevice(int id, CancellationToken cancellationToken)
         {
-            var deleted = await _deviceService.Delete(id);
+            var deleted = await _deviceService.Delete(id, cancellationToken);
             if (!deleted)
                 return NotFound();
 
