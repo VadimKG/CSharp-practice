@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../SmartHome.API.Tests/SmartHome.API.Tests.csproj" Id="15389307-5968-4d52-87ff-2616998d5a1e" />
   <Project Path="SmartHome.API.csproj" />
 </Solution>
