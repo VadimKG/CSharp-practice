@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using SmartHome.API.Models;
 using SmartHome.API.Services;
 using SmartHome.API.DTOs;
@@ -17,15 +18,18 @@ namespace SmartHome.API.Controllers
             _deviceService = deviceService;
             _logger = logger;
         }
-        
+
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<DeviceResponseDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<DeviceResponseDto>>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, CancellationToken cancellationToken, int pageNumber = 1, int pageSize = 10)
         {
-            return Ok(await _deviceService.GetAll(isOn, sortByAlphabet, type, searchQuery, cancellationToken, pageNumber, pageSize)); 
+            return Ok(await _deviceService.GetAll(isOn, sortByAlphabet, type, searchQuery, cancellationToken, pageNumber, pageSize));
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(DeviceResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DeviceResponseDto>> GetDevice(int id, CancellationToken cancellationToken)
         {
             var device = await _deviceService.GetById(id, cancellationToken);
@@ -36,6 +40,7 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpGet("stats")]
+        [ProducesResponseType(typeof(Dictionary<DeviceType, int>), StatusCodes.Status200OK)]
         public async Task<ActionResult<Dictionary<DeviceType, int>>> GetStats()
         {
             var st_device = await _deviceService.GetStats();
@@ -43,15 +48,20 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(DeviceResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<DeviceResponseDto>> AddDevice(CreateDeviceDto dto, CancellationToken cancellationToken)
         {
-                var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
-                var createdDevice = await _deviceService.Add(newDevice, cancellationToken);
-                _logger.LogInformation("Device added successfully: {DeviceName}", newDevice.Name);
-                return CreatedAtAction(nameof(GetDevice), new { id = createdDevice.Id }, createdDevice);
+            var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
+            var createdDevice = await _deviceService.Add(newDevice, cancellationToken);
+            _logger.LogInformation("Device added successfully: {DeviceName}", newDevice.Name);
+            return CreatedAtAction(nameof(GetDevice), new { id = createdDevice.Id }, createdDevice);
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> UpdateDevice(int id, UpdateDeviceDto dto, CancellationToken cancellationToken)
         {
             var newDevice = new SmartDevice { Name = dto.Name, IsOn = dto.IsOn, Type = dto.Type };
@@ -63,6 +73,8 @@ namespace SmartHome.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> DeleteDevice(int id, CancellationToken cancellationToken)
         {
             var deleted = await _deviceService.Delete(id, cancellationToken);
