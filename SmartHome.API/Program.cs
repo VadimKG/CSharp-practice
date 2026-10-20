@@ -6,8 +6,8 @@ using SmartHome.API.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
 builder.Services.AddCors(options =>
-
 {
     options.AddPolicy("AllowAll", policy =>
     {
@@ -40,7 +40,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll");    
+app.UseCors("AllowAll");
+
+app.MapHealthChecks("/health");
 
 app.UseAuthorization();
 
