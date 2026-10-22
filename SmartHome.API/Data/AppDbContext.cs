@@ -11,5 +11,16 @@ namespace SmartHome.API.Data
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<SmartDevice>().HasData(
+                new SmartDevice { ID = 2, Name = "Apple Lamp", IsOn = false, Type = DeviceType.Lamp },
+                new SmartDevice { ID = 3, Name = "Smart Speaker", IsOn = true, Type = DeviceType.Speaker },
+                new SmartDevice { ID = 4, Name = "Camera", IsOn = true, Type = DeviceType.Camera }
+            );  
+        }
     }
 }

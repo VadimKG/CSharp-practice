@@ -16,7 +16,7 @@ namespace SmartHome.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "10.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -43,6 +43,29 @@ namespace SmartHome.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Devices");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 2,
+                            IsOn = false,
+                            Name = "Apple Lamp",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ID = 3,
+                            IsOn = true,
+                            Name = "Smart Speaker",
+                            Type = 1
+                        },
+                        new
+                        {
+                            ID = 4,
+                            IsOn = true,
+                            Name = "Camera",
+                            Type = 2
+                        });
                 });
 #pragma warning restore 612, 618
         }
