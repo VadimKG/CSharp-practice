@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SmartHome.API.Data;
 using SmartHome.API.Middlewares;
+using SmartHome.API.Profiles;
 using SmartHome.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+
+builder.Services.AddAutoMapper(cfg => { }, typeof(DeviceProfile));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

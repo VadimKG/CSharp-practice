@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartHome.API.Data;
 using SmartHome.API.DTOs;
 using SmartHome.API.Models;
+using AutoMapper.QueryableExtensions;
 
 namespace SmartHome.API.Services
 {
     public class DeviceService : IDeviceService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public DeviceService(AppDbContext context)
+        public DeviceService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<List<DeviceResponseDto>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, CancellationToken cancellationToken, int pageNumber, int pageSize)
@@ -40,17 +44,12 @@ namespace SmartHome.API.Services
             }
 
 
-            return await query.Select(d => new DeviceResponseDto
-            {
-                Id = d.ID,
-                Name = d.Name,
-                IsOn = d.IsOn,
-                Type = d.Type
-            })
+            var devices = await query
+                                    .Skip((pageNumber - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToListAsync(cancellationToken);
 
-                         .Skip((pageNumber - 1) * pageSize)
-                         .Take(pageSize)
-                         .ToListAsync(cancellationToken);
+            return _mapper.Map<List<DeviceResponseDto>>(devices);
         }
         public async Task<DeviceResponseDto?> GetById(int id, CancellationToken cancellationToken)
         {
@@ -60,26 +59,14 @@ namespace SmartHome.API.Services
             {
                 return null;
             }
-            return new DeviceResponseDto 
-            { 
-                Id = device.ID,
-                Name = device.Name,
-                IsOn = device.IsOn,
-                Type = device.Type 
-            };
+            return _mapper.Map<DeviceResponseDto>(device);
         }
         public async Task<DeviceResponseDto> Add(SmartDevice device, CancellationToken cancellationToken)
         {
             _context.Devices.Add(device);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return new DeviceResponseDto
-            {
-                Id = device.ID,
-                Name = device.Name,
-                IsOn = device.IsOn,
-                Type = device.Type
-            };
+            return _mapper.Map<DeviceResponseDto>(device);
         }
         public async Task<bool> Update(int id, SmartDevice updatedDevice, CancellationToken cancellationToken)
         {
