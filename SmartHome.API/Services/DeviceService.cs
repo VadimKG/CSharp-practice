@@ -22,7 +22,7 @@ namespace SmartHome.API.Services
 
         public async Task<List<DeviceResponseDto>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, CancellationToken cancellationToken, int pageNumber, int pageSize)
         {
-            IQueryable<SmartDevice> query = _context.Devices;
+            IQueryable<SmartDevice> query = _context.Devices.AsNoTracking();
             if (isOn != null)
             {
                 query = query.Where(d => d.IsOn == isOn);
@@ -53,7 +53,9 @@ namespace SmartHome.API.Services
         }
         public async Task<DeviceResponseDto?> GetById(int id, CancellationToken cancellationToken)
         {
-            var device = await _context.Devices.FirstOrDefaultAsync(d => d.ID == id, cancellationToken);
+            var device = await _context.Devices
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d => d.ID == id, cancellationToken);
 
             if (device == null)
             {
@@ -95,6 +97,7 @@ namespace SmartHome.API.Services
         public async Task<Dictionary<DeviceType, int>> GetStats()
         {
             return await _context.Devices
+                   .AsNoTracking()
                    .GroupBy(st => st.Type)
                    .Select(g => new { Key = g.Key, Count = g.Count() })
                    .ToDictionaryAsync(g => g.Key, g => g.Count);
