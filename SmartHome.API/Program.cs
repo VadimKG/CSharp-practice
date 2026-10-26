@@ -3,6 +3,9 @@ using SmartHome.API.Data;
 using SmartHome.API.Middlewares;
 using SmartHome.API.Profiles;
 using SmartHome.API.Services;
+using FluentValidation;
+using SmartHome.API.Validators;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateDeviceDtoValidator>();
 
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 
