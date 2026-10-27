@@ -17,6 +17,6 @@ namespace SmartHome.API.Services
         Task<DeviceResponseDto> Add(SmartDevice device, CancellationToken cancellationToken);
         Task<bool> Update(int id, SmartDevice device, CancellationToken cancellationToken);
         Task<bool> Delete(int id, CancellationToken cancellationToken);
-        Task<Dictionary<DeviceType, int>> GetStats();
+        Task<Dictionary<DeviceType, int>> GetStats(CancellationToken cancellationToken);
     }
 }
