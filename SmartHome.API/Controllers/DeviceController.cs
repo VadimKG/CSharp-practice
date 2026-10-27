@@ -41,9 +41,9 @@ namespace SmartHome.API.Controllers
 
         [HttpGet("stats")]
         [ProducesResponseType(typeof(Dictionary<DeviceType, int>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Dictionary<DeviceType, int>>> GetStats()
+        public async Task<ActionResult<Dictionary<DeviceType, int>>> GetStats(CancellationToken cancellationToken)
         {
-            var st_device = await _deviceService.GetStats();
+            var st_device = await _deviceService.GetStats(cancellationToken);
             return Ok(st_device);
         }
 

@@ -1,61 +1,48 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartHome.API.Data;
 using SmartHome.API.DTOs;
 using SmartHome.API.Models;
-using AutoMapper.QueryableExtensions;
+using SmartHome.API.Repositories;
 
 namespace SmartHome.API.Services
 {
     public class DeviceService : IDeviceService
     {
-        private readonly AppDbContext _context;
+        private readonly IDeviceRepository _repository;
         private readonly IMapper _mapper;
 
-        public DeviceService(AppDbContext context, IMapper mapper)
+        public DeviceService(IDeviceRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<List<DeviceResponseDto>> GetAll(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, CancellationToken cancellationToken, int pageNumber, int pageSize)
+        public async Task<List<DeviceResponseDto>> GetAll(
+                                                          bool? isOn, 
+                                                          bool? sortByAlphabet, 
+                                                          DeviceType? type, 
+                                                          string? searchQuery, 
+                                                          CancellationToken cancellationToken, 
+                                                          int pageNumber, 
+                                                          int pageSize)
         {
-            IQueryable<SmartDevice> query = _context.Devices.AsNoTracking();
-            if (isOn != null)
-            {
-                query = query.Where(d => d.IsOn == isOn);
-            }
-
-            if (sortByAlphabet == true)
-            {
-                query = query.OrderBy(fa => fa.Name);
-            }
-
-            if (type != null)
-            {
-                query = query.Where(t => t.Type == type);
-            }
-
-            if (!string.IsNullOrWhiteSpace(searchQuery))
-            {
-                query = query.Where(s => s.Name.ToLower().Contains(searchQuery.ToLower()));
-            }
-
-
-            var devices = await query
-                                    .Skip((pageNumber - 1) * pageSize)
-                                    .Take(pageSize)
-                                    .ToListAsync(cancellationToken);
+            var devices = await _repository.GetAllAsync(
+                                                        isOn,
+                                                        sortByAlphabet,
+                                                        type,
+                                                        searchQuery,
+                                                        cancellationToken,
+                                                        pageNumber,
+                                                        pageSize);
 
             return _mapper.Map<List<DeviceResponseDto>>(devices);
         }
         public async Task<DeviceResponseDto?> GetById(int id, CancellationToken cancellationToken)
         {
-            var device = await _context.Devices
-                .AsNoTracking()
-                .FirstOrDefaultAsync(d => d.ID == id, cancellationToken);
+            var device = await _repository.GetByIdAsync(id, cancellationToken);
 
             if (device == null)
             {
@@ -65,14 +52,13 @@ namespace SmartHome.API.Services
         }
         public async Task<DeviceResponseDto> Add(SmartDevice device, CancellationToken cancellationToken)
         {
-            _context.Devices.Add(device);
-            await _context.SaveChangesAsync(cancellationToken);
+            await _repository.AddAsync(device, cancellationToken);
 
             return _mapper.Map<DeviceResponseDto>(device);
         }
         public async Task<bool> Update(int id, SmartDevice updatedDevice, CancellationToken cancellationToken)
         {
-            var up_device = await _context.Devices.FirstOrDefaultAsync(d => d.ID == id);
+            var up_device = await _repository.GetByIdAsync(id, cancellationToken);  
             if (up_device == null)
                 return false;
 
@@ -80,27 +66,22 @@ namespace SmartHome.API.Services
             up_device.IsOn = updatedDevice.IsOn;
             up_device.Type = updatedDevice.Type;
 
-            await _context.SaveChangesAsync();
+            await _repository.UpdateAsync(up_device, cancellationToken);
             return true;
         }
         public async Task<bool> Delete(int id, CancellationToken cancellationToken)
         {
-            var device_d = await _context.Devices.FirstOrDefaultAsync(del => del.ID == id);
+            var device_d = await _repository.GetByIdAsync(id, cancellationToken);
             if (device_d == null)
                 return false;
 
-            _context.Devices.Remove(device_d);
-            await _context.SaveChangesAsync();
+            await _repository.DeleteAsync(device_d, cancellationToken);
             return true;
         }
 
-        public async Task<Dictionary<DeviceType, int>> GetStats()
+        public async Task<Dictionary<DeviceType, int>> GetStats(CancellationToken cancellationToken)
         {
-            return await _context.Devices
-                   .AsNoTracking()
-                   .GroupBy(st => st.Type)
-                   .Select(g => new { Key = g.Key, Count = g.Count() })
-                   .ToDictionaryAsync(g => g.Key, g => g.Count);
+            return await _repository.GetStatsAsync(cancellationToken);
         }
     }
 }
