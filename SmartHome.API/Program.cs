@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using SmartHome.API.Data;
 using SmartHome.API.Middlewares;
 using SmartHome.API.Profiles;
@@ -9,6 +10,13 @@ using SmartHome.API.Services;
 using SmartHome.API.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration
+        .WriteTo.Console()
+        .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day);
+});
 
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks()

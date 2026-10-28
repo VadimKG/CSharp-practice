@@ -32,6 +32,8 @@ namespace SmartHome.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<DeviceResponseDto>> GetDevice(int id, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("A request was made for the device with ID {DeviceId}", id);
+
             var device = await _deviceService.GetById(id, cancellationToken);
             if (device == null)
                 return NotFound();
