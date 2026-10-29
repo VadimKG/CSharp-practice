@@ -10,6 +10,8 @@ using SmartHome.API.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks()
                 .AddDbContextCheck<AppDbContext>();

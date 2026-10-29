@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartHome.API.DTOs;
 using SmartHome.API.Models;
 using SmartHome.API.Repositories;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace SmartHome.API.Services
 {
@@ -13,11 +14,13 @@ namespace SmartHome.API.Services
     {
         private readonly IDeviceRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
 
-        public DeviceService(IDeviceRepository repository, IMapper mapper)
+        public DeviceService(IMemoryCache cache, IDeviceRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
+            _cache = cache;
         }
 
         public async Task<List<DeviceResponseDto>> GetAll(
@@ -81,7 +84,14 @@ namespace SmartHome.API.Services
 
         public async Task<Dictionary<DeviceType, int>> GetStats(CancellationToken cancellationToken)
         {
-            return await _repository.GetStatsAsync(cancellationToken);
+            if (!_cache.TryGetValue("devices_stats", out Dictionary<DeviceType, int>? stats))
+            {
+                stats = await _repository.GetStatsAsync(cancellationToken);
+
+                _cache.Set("devices_stats", stats, TimeSpan.FromMinutes(5));
+            }
+
+            return stats!;
         }
     }
 }
