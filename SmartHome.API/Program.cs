@@ -8,6 +8,7 @@ using SmartHome.API.Profiles;
 using SmartHome.API.Repositories;
 using SmartHome.API.Services;
 using SmartHome.API.Validators;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Host.UseSerilog((context, configuration) =>
         .WriteTo.Console()
         .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day);
 });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 
 builder.Services.AddMemoryCache();
 
@@ -66,6 +69,8 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.MapHealthChecks("/health");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
