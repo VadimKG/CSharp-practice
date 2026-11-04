@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Runtime.InteropServices;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -34,7 +32,7 @@ namespace SmartHome.API.Controllers
                 new Claim(ClaimTypes.Role, "Admin")
             };
 
-            var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(
+            var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
@@ -42,7 +40,7 @@ namespace SmartHome.API.Controllers
                 signingCredentials: signingCredentials
             );
 
-            var tokenString = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
             return Ok(new { Token = tokenString });
         }
