@@ -63,7 +63,7 @@ builder.Services.AddSwaggerGen(options =>
     var securityScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Description = "¬ведите токен в формате: Bearer {ваш_токен}",
+        Description = "JWT Authorization header using the Bearer scheme. Example: Bearer {token}",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
