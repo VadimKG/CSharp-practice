@@ -63,7 +63,7 @@ builder.Services.AddSwaggerGen(options =>
     var securityScheme = new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Description = "¬ведите токен в формате: Bearer {ваш_токен}",
+        Description = "Enter your token in the format: Bearer <your_token>",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
