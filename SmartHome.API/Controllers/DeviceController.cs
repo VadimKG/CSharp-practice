@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartHome.API.DTOs;
 using SmartHome.API.Models;
 using SmartHome.API.Services;
+using System.Security.Claims;
 
 namespace SmartHome.API.Controllers
 {
@@ -24,8 +25,19 @@ namespace SmartHome.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DeviceResponseDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<DeviceResponseDto>>> GetList(bool? isOn, bool? sortByAlphabet, DeviceType? type, string? searchQuery, CancellationToken cancellationToken, int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<DeviceResponseDto>>> GetList(
+            bool? isOn,
+            bool? sortByAlphabet,
+            DeviceType? type,
+            string? searchQuery,
+            CancellationToken cancellationToken,
+            int pageNumber = 1,
+            int pageSize = 10)
         {
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+
+            _logger.LogInformation("User {UserName} requested the device list.", userName);
+
             return Ok(await _deviceService.GetAll(isOn, sortByAlphabet, type, searchQuery, cancellationToken, pageNumber, pageSize));
         }
 
