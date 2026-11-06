@@ -2,14 +2,13 @@
 using SmartHome.API.DTOs;
 using SmartHome.API.Models;
 
-namespace SmartHome.API.Profiles
+namespace SmartHome.API.Profiles;
+
+public class DeviceProfile : Profile
 {
-    public class DeviceProfile : Profile
+    public DeviceProfile()
     {
-        public DeviceProfile()
-        {
-            CreateMap<SmartDevice, DeviceResponseDto>();
-            CreateMap<CreateDeviceDto, SmartDevice>();
-        }
+        CreateMap<SmartDevice, DeviceResponseDto>();
+        CreateMap<CreateDeviceDto, SmartDevice>();
     }
 }

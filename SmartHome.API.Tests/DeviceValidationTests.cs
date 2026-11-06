@@ -1,6 +1,5 @@
 ﻿using SmartHome.API.DTOs;
 using System.ComponentModel.DataAnnotations;
-using Xunit;
 
 namespace SmartHome.API.Tests;
 
@@ -20,4 +19,4 @@ public class DeviceValidationTests
         // Assert
         Assert.False(isValid);
     }
-}   
+}
