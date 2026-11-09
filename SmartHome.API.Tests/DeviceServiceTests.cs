@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.OpenApi;
 using Moq;
 using SmartHome.API.DTOs;
 using SmartHome.API.Models;
@@ -17,7 +18,7 @@ public class DeviceServiceTests
     [Fact]
     public async Task GetAll_ReturnsListOfDevices()
     {
-        //Arrange
+        // Arrange
         var mockCache = new Mock<IMemoryCache>();
         var mockRepository = new Mock<IDeviceRepository>();
         var mockMapper = new Mock<IMapper>();
@@ -53,5 +54,23 @@ public class DeviceServiceTests
         // Assert
         Assert.NotNull(result); 
         Assert.Single(result);
+    }
+
+    [Fact]
+    public async Task Add_CallsRepositoryAddMethod_ExactlyOnce()
+    {
+        // Arrange 
+        var mockCache = new Mock<IMemoryCache>();
+        var mockRepository = new Mock<IDeviceRepository>();
+        var mockMapper = new Mock<IMapper>();
+
+        var service = new DeviceService(mockCache.Object, mockRepository.Object, mockMapper.Object);
+        var fakeDevice = new SmartDevice { ID = 1, Name = "The Lamp", IsOn = true };
+
+        // Act
+        var result = await service.Add(fakeDevice, CancellationToken.None);
+
+        // Assert
+        mockRepository.Verify(r => r.AddAsync(It.IsAny<SmartDevice>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 }
