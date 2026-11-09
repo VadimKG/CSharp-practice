@@ -57,7 +57,7 @@ public class DeviceService : IDeviceService
     {
         await _repository.AddAsync(device, cancellationToken);
 
-        return _mapper.Map<DeviceResponseDto>(device);
+        return _mapper.Map<DeviceResponseDto>(device);  
     }
     public async Task<bool> Update(int id, SmartDevice updatedDevice, CancellationToken cancellationToken)
     {
