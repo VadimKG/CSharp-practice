@@ -1,5 +1,4 @@
 ﻿using SmartHome.API.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SmartHome.API.Repositories
 {

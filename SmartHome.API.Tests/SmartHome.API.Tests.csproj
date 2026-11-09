@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartHome.API\SmartHome.API.csproj" />
+    <ProjectReference Include="..\SmartHome.Core\SmartHome.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
