@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using SmartHome.API.DTOs;
-using SmartHome.API.Models;
+using SmartHome.Core.DTOs;
+using SmartHome.Core.Models;
 
 namespace SmartHome.API.Profiles;
 

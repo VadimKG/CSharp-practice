@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmartHome.API.Models;
+namespace SmartHome.Core.Models;
 
 public class SmartDevice
 {

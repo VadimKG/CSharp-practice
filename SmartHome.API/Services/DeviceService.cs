@@ -3,10 +3,11 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SmartHome.API.DTOs;
-using SmartHome.API.Models;
-using SmartHome.API.Repositories;
 using Microsoft.Extensions.Caching.Memory;
+using SmartHome.Core.Models;
+using SmartHome.Core.Repositories;
+using SmartHome.Core.Services;
+using SmartHome.Core.DTOs;
 
 namespace SmartHome.API.Services;
 

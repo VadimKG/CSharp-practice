@@ -1,4 +1,4 @@
-﻿using SmartHome.API.DTOs;
+﻿using SmartHome.Core.DTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartHome.API.Tests;

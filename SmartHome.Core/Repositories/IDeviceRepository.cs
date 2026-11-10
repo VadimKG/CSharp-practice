@@ -1,7 +1,7 @@
-﻿using SmartHome.API.Models;
+﻿using SmartHome.Core.Models;
 
-namespace SmartHome.API.Repositories
-{
+namespace SmartHome.Core.Repositories;
+
     public interface IDeviceRepository
     {
         Task<List<SmartDevice>> GetAllAsync(
@@ -18,4 +18,3 @@ namespace SmartHome.API.Repositories
         Task DeleteAsync(SmartDevice device, CancellationToken cancellationToken);
         Task<Dictionary<DeviceType, int>> GetStatsAsync(CancellationToken cancellationToken);
     }
-}

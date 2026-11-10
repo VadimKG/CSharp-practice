@@ -1,6 +1,6 @@
-﻿using SmartHome.API.Models;
+﻿using SmartHome.Core.Models;
 
-namespace SmartHome.API.DTOs
+namespace SmartHome.Core.DTOs
 {
     public class DeviceResponseDto
     {

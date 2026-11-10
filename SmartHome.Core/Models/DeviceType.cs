@@ -1,9 +1,8 @@
-﻿namespace SmartHome.API.Models
-{
+﻿namespace SmartHome.Core.Models;
+
     public enum DeviceType
     {
         Lamp,
         Speaker,
         Camera
     }
-}

@@ -1,11 +1,12 @@
+using SmartHome.Core.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using SmartHome.API.Data;
+using SmartHome.Infrastructure.Data;
 using SmartHome.API.Middlewares;
 using SmartHome.API.Profiles;
-using SmartHome.API.Repositories;
+using SmartHome.Infrastructure.Repositories;
 using SmartHome.API.Services;
 using SmartHome.API.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi;
 using System.Security.Cryptography.Xml;
+using SmartHome.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
