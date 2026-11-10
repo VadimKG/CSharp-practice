@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.OpenApi;
 using Moq;
-using SmartHome.API.DTOs;
-using SmartHome.API.Models;
-using SmartHome.API.Repositories;
+using SmartHome.Core.DTOs;
+using SmartHome.Core.Models;
+using SmartHome.Core.Repositories;
 using SmartHome.API.Services;
 using System;
 using System.Collections.Generic;

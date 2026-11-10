@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using SmartHome.API.DTOs;
+using SmartHome.Core.DTOs;
 
 namespace SmartHome.API.Validators;
 

@@ -1,7 +1,7 @@
-﻿using SmartHome.API.DTOs;
-using SmartHome.API.Models;
+﻿using SmartHome.Core.DTOs;
+using SmartHome.Core.Models;
 
-namespace SmartHome.API.Services
+namespace SmartHome.Core.Services
 {
     public interface IDeviceService
     {

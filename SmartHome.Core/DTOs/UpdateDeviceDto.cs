@@ -1,7 +1,7 @@
-﻿using SmartHome.API.Models;
+﻿using SmartHome.Core.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartHome.API.DTOs
+namespace SmartHome.Core.DTOs
 {
     public class UpdateDeviceDto
     {
