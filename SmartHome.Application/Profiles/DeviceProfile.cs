@@ -2,7 +2,7 @@
 using SmartHome.Core.DTOs;
 using SmartHome.Core.Models;
 
-namespace SmartHome.API.Profiles;
+namespace SmartHome.Application.Profiles;
 
 public class DeviceProfile : Profile
 {

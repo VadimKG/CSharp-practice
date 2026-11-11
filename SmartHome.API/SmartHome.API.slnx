@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="../SmartHome.API.Tests/SmartHome.API.Tests.csproj" Id="15389307-5968-4d52-87ff-2616998d5a1e" />
+  <Project Path="../SmartHome.Application/SmartHome.Application.csproj" Id="51af34e5-715c-454b-992b-051c8b3a3339" />
   <Project Path="../SmartHome.Core/SmartHome.Core.csproj" Id="258a268a-0b5f-4fb4-bcb7-e5b41bd9a3f8" />
   <Project Path="../SmartHome.Infrastructure/SmartHome.Infrastructure.csproj" Id="c2a2aaad-48af-4f19-949a-d5f9e0247dc5" />
   <Project Path="SmartHome.API.csproj" />

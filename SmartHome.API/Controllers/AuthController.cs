@@ -4,45 +4,44 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace SmartHome.API.Controllers
+namespace SmartHome.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    private readonly IConfiguration _configuration;
+
+    public AuthController(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+    }
 
-        public AuthController(IConfiguration configuration)
+    [HttpPost("login")]
+    public IActionResult Login()
+    {
+        var key = _configuration["Jwt:Key"];
+        var keyBytes = Encoding.UTF8.GetBytes(key!);
+        var securityKey = new SymmetricSecurityKey(keyBytes);
+
+        var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new List<Claim>()
         {
-            _configuration = configuration;
-        }
+            new Claim(ClaimTypes.Name, "login_name"),
+            new Claim(ClaimTypes.Role, "Admin")
+        };
 
-        [HttpPost("login")]
-        public IActionResult Login()
-        {
-            var key = _configuration["Jwt:Key"];
-            var keyBytes = Encoding.UTF8.GetBytes(key!);
-            var securityKey = new SymmetricSecurityKey(keyBytes);
+        var token = new JwtSecurityToken(
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Audience"],
+            claims: claims,
+            expires: DateTime.UtcNow.AddHours(1),
+            signingCredentials: signingCredentials
+        );
 
-            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, "login_name"),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: signingCredentials
-            );
-
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return Ok(new { Token = tokenString });
-        }
+        return Ok(new { Token = tokenString });
     }
 }
