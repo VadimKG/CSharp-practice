@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SmartHome.API.Options;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,17 +12,17 @@ namespace SmartHome.API.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
+    private readonly IOptions<JwtOptions> _jwtOptions;
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IOptions<JwtOptions> jwtOptions)
     {
-        _configuration = configuration;
+        _jwtOptions = jwtOptions;
     }
 
     [HttpPost("login")]
     public IActionResult Login()
     {
-        var key = _configuration["Jwt:Key"];
+        var key = _jwtOptions.Value.Key;
         var keyBytes = Encoding.UTF8.GetBytes(key!);
         var securityKey = new SymmetricSecurityKey(keyBytes);
 
@@ -33,8 +35,8 @@ public class AuthController : ControllerBase
         };
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+            issuer: _jwtOptions.Value.Issuer,
+            audience: _jwtOptions.Value.Audience,
             claims: claims,
             expires: DateTime.UtcNow.AddHours(1),
             signingCredentials: signingCredentials
