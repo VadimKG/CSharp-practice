@@ -5,7 +5,7 @@ using Moq;
 using SmartHome.Core.DTOs;
 using SmartHome.Core.Models;
 using SmartHome.Core.Repositories;
-using SmartHome.API.Services;
+using SmartHome.Application.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;

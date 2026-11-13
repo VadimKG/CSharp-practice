@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartHome.Core.DTOs;
 using SmartHome.Core.Models;
-using SmartHome.API.Services;
 using System.Security.Claims;
 using SmartHome.Core.Services;
 

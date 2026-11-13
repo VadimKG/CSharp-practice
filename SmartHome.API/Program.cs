@@ -1,20 +1,15 @@
-using SmartHome.Core.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
-using Serilog;
-using SmartHome.Infrastructure.Data;
-using SmartHome.API.Middlewares;
-using SmartHome.API.Profiles;
-using SmartHome.Infrastructure.Repositories;
-using SmartHome.API.Services;
-using SmartHome.API.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi;
-using System.Security.Cryptography.Xml;
-using SmartHome.Core.Services;
+using Serilog;
+using SmartHome.API.Middlewares;
+using SmartHome.API.Validators;
+using SmartHome.Application;
+using SmartHome.Infrastructure.Data;
+using System.Text;
+using SmartHome.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,14 +80,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateDeviceDtoValidator>();
 
-builder.Services.AddScoped<IDeviceService, DeviceService>();
-
-builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
-
-builder.Services.AddAutoMapper(cfg => { }, typeof(DeviceProfile));
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddApplicationLayer();
+builder.Services.AddInfrastructureLayer(builder.Configuration);
 
 var app = builder.Build();
 
