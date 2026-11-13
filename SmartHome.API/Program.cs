@@ -5,11 +5,12 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Serilog;
 using SmartHome.API.Middlewares;
+using SmartHome.API.Options;
 using SmartHome.API.Validators;
 using SmartHome.Application;
+using SmartHome.Infrastructure;
 using SmartHome.Infrastructure.Data;
 using System.Text;
-using SmartHome.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,9 @@ builder.Host.UseSerilog((context, configuration) =>
         .WriteTo.Console()
         .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day);
 });
+
+builder.Services.Configure<JwtOptions>(
+    builder.Configuration.GetSection("Jwt"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
