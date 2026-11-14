@@ -4,12 +4,14 @@ using SmartHome.Core.DTOs;
 using SmartHome.Core.Models;
 using System.Security.Claims;
 using SmartHome.Core.Services;
+using Asp.Versioning;
 
 namespace SmartHome.API.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class DeviceController : ControllerBase
 {
     private readonly IDeviceService _deviceService;
