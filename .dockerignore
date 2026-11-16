@@ -1,0 +1,7 @@
+﻿*
+!SmartHome.API/
+!SmartHome.Application/
+!SmartHome.Infrastructure/
+!SmartHome.Core/
+**/bin/
+**/obj/
