@@ -17,7 +17,8 @@ namespace SmartHome.Infrastructure
             services.AddScoped<IDeviceRepository, DeviceRepository>();
 
             services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+            b => b.MigrationsAssembly("SmartHome.API")));
 
             return services;
         }
