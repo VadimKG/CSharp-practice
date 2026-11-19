@@ -20,10 +20,10 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore SmartHome.API/SmartHome.API.slnx
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build SmartHome.API/SmartHome.API.slnx --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal
+        run: dotnet test SmartHome.API/SmartHome.API.slnx --no-build --configuration Release --verbosity normal
